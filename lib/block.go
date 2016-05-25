@@ -6,3 +6,7 @@ type BlockInterface interface {
 
 type TestBlock struct {
 }
+
+func (t *TestBlock) Commands() []CommandInterface {
+	return []TestCommand{TestCommand{}}
+}
