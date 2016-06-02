@@ -9,7 +9,13 @@ type TestFile struct {
 }
 
 func (t *TestFile) Blocks() []BlockInterface {
-	// @TODO: need to do conversion from slice
-	// of TestBlock to slice of BlockInterface
-	return []TestBlock{TestBlock{}}
+	return t.structToInterface([]*TestBlock{&TestBlock{}})
+}
+
+func (t *TestFile) structToInterface(blockStruct []*TestBlock) []BlockInterface {
+	blockInterface := make([]BlockInterface, len(blockStruct))
+	for i := range blockStruct {
+		blockInterface[i] = blockStruct[i]
+	}
+	return blockInterface
 }
