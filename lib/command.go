@@ -1,38 +1,54 @@
 package qbt
 
-// import (
-// 	"os/exec"
-// )
+import (
+	"errors"
+	"log"
+	"os/exec"
+)
 
 type CommandInterface interface {
 	Run()
 }
 
-func NewSimpleCommand(command string, args string) *SimpleCommand {
-	return &SimpleCommand{command: command, args: args}
+func NewSimpleCommand(command string, args string, exec ExecInterface) *SimpleCommand {
+	return &SimpleCommand{command: command, args: args, exec: exec}
+}
+
+func NewSimpleCommandWithExec(command string, args string) *SimpleCommand {
+	osExec := &Exec{}
+	return &SimpleCommand{command: command, args: args, exec: osExec}
 }
 
 // SimpleCommand takes the command as it is and executes it
 type SimpleCommand struct {
 	command string
 	args    string
+	exec    ExecInterface
 }
 
 func (t *SimpleCommand) Run() string {
 	return t.command + " " + t.args
 }
 
-// type ExecInterface interface {
-// 	Run(command string, args string)
-// }
+type ExecInterface interface {
+	Run(command string, args string) (output []byte, err error)
+}
 
-// type Exec struct {
-// }
+type Exec struct {
+}
 
-// func (e *Exec) Run(command string, args string) {
-// 	out, err := exec.Command("date").Output()
-// 	if err != nil {
-// 		log.Fatal(err)
-// 	}
-// 	fmt.Printf("The date is %s\n", out)
-// }
+func (e *Exec) Run(command string, args string) (output []byte, err error) {
+	output, err = exec.Command("date").Output()
+	if err != nil {
+		log.Fatal(err)
+	}
+	return output, err
+}
+
+type FkExec struct {
+}
+
+func (f *FkExec) Run(command string, args string) (output []byte, err error) {
+	errorOutput := errors.New("fake error")
+	return []byte(command), errorOutput
+}
