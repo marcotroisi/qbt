@@ -1,7 +1,6 @@
 package qbt
 
 import (
-	"errors"
 	"log"
 	"os/exec"
 )
@@ -43,12 +42,4 @@ func (e *Exec) Run(command string, args string) (output []byte, err error) {
 		log.Fatal(err)
 	}
 	return output, err
-}
-
-type FkExec struct {
-}
-
-func (f *FkExec) Run(command string, args string) (output []byte, err error) {
-	errorOutput := errors.New("fake error")
-	return []byte(command), errorOutput
 }
