@@ -12,6 +12,7 @@ func (t *TestFile) Blocks() []BlockInterface {
 	return t.structToInterface([]*TestBlock{&TestBlock{}})
 }
 
+// Converts an array of TestBlock structs into one of BlockInterfaces
 func (t *TestFile) structToInterface(blockStruct []*TestBlock) []BlockInterface {
 	blockInterface := make([]BlockInterface, len(blockStruct))
 	for i := range blockStruct {
