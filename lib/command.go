@@ -9,10 +9,13 @@ type CommandInterface interface {
 	Run() string
 }
 
+// Constructor for SimpleCommand that accepts any exec library that is
+// compatible with ExecInterface
 func NewSimpleCommand(command string, args string, exec ExecInterface) *SimpleCommand {
 	return &SimpleCommand{command: command, args: args, exec: exec}
 }
 
+// Constructor for SimpleCommand that uses Exec
 func NewSimpleCommandWithExec(command string, args string) *SimpleCommand {
 	osExec := &Exec{}
 	return &SimpleCommand{command: command, args: args, exec: osExec}
@@ -25,6 +28,7 @@ type SimpleCommand struct {
 	exec    ExecInterface
 }
 
+// Runs the command and returns the output
 func (t *SimpleCommand) Run() string {
 	return t.command + " " + t.args
 }
