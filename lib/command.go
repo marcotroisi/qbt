@@ -6,7 +6,7 @@ import (
 )
 
 type CommandInterface interface {
-	Run()
+	Run() string
 }
 
 func NewSimpleCommand(command string, args string, exec ExecInterface) *SimpleCommand {

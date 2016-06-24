@@ -1,7 +1,7 @@
 package qbt
 
 type BlockInterface interface {
-	Commands() []TestCommand
+	Commands() []CommandInterface
 }
 
 type TestBlock struct {
