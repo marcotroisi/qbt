@@ -1,6 +1,8 @@
 package qbt
 
-import "strings"
+import (
+	"strings"
+)
 
 type ActionInterface interface {
 	Arguments() []string
