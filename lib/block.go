@@ -2,11 +2,12 @@ package qbt
 
 type BlockInterface interface {
 	Commands() []CommandInterface
+	RunAll()
 }
 
-type TestBlock struct {
+type Block struct {
 }
 
-func (t *TestBlock) Commands() []TestCommand {
+func (b *Block) Commands() []TestCommand {
 	return []TestCommand{TestCommand{}}
 }
