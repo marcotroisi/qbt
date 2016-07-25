@@ -1,7 +1,6 @@
 package qbt
 
 import (
-	"os"
 	"log"
 	"io/ioutil"
 	"encoding/json"
@@ -30,19 +29,24 @@ func (c *CommandsFromJsonFile) Find(command []string) []SimpleCommand {
 
 }
 
-func (c *CommandsFromJsonFile) openAndParseFile() {
+func (c *CommandsFromJsonFile) fileContent() []byte {
 	//open file
 	content, err := ioutil.ReadFile(c.filepath)
 	if err != nil {
 		log.Fatal(err)
 	}
-	//file content
+	return content
+}
+
+func (c *CommandsFromJsonFile) parsedFile(fileContent []byte) map[string]map[string]string {
 	m := map[string]map[string]string{}
-	er := json.Unmarshal(content, &m)
-	if er != nil {
-		panic(err)
+	err:= json.Unmarshal(fileContent, &m)
+	if err != nil {
+		log.Fatal(err)
 	}
-	//traverse map (this to be done in Find and FindOne
+	return m
+
+	//traverse map (this to be done in Find and FindOne)
 	for college, schools := range m {
 		fmt.Println(college, ":")
 		for school, id := range schools {
