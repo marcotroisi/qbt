@@ -1,0 +1,18 @@
+package qbt
+
+import (
+	// "reflect"
+	"testing"
+)
+
+func TestCommands(t *testing.T) {
+	block := &Block{}
+	commands := block.Commands()
+
+	if blocks == nil {
+		t.Error("expected slice, got ", blocks)
+	}
+	// if reflect.DeepEqual(blocks, expected) == false {
+	// 	t.Error("expected ", expected, ", got ", blocks)
+	// }
+}

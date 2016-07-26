@@ -14,20 +14,29 @@ type CommandsInterface interface {
 
 // Creates a new CommandsFromJson, taking as an argument the path of the json file
 func NewCommandsFromJsonFile(filepath string) *CommandsFromJsonFile {
-	return &CommandsFromJsonFile{}
+	return &CommandsFromJsonFile{filepath:filepath}
 }
 
 type CommandsFromJsonFile struct {
 	filepath string
 }
 
-func (c *CommandsFromJsonFile) FindOne(command string) SimpleCommand {
+func (c *CommandsFromJsonFile) FindOne(command string) string {
+	parsedFile := c.parsedFile(c.fileContent())
 
+	for block, commands := range parsedFile {
+		fmt.Println(block, ":")
+		for name, command := range commands {
+			fmt.Println("\t", name, ":", command)
+		}
+	}
+
+	return "command"
 }
 
-func (c *CommandsFromJsonFile) Find(command []string) []SimpleCommand {
-
-}
+//func (c *CommandsFromJsonFile) Find(command []string) []SimpleCommand {
+//
+//}
 
 func (c *CommandsFromJsonFile) fileContent() []byte {
 	//open file
@@ -45,12 +54,4 @@ func (c *CommandsFromJsonFile) parsedFile(fileContent []byte) map[string]map[str
 		log.Fatal(err)
 	}
 	return m
-
-	//traverse map (this to be done in Find and FindOne)
-	for college, schools := range m {
-		fmt.Println(college, ":")
-		for school, id := range schools {
-			fmt.Println("\t", school, ":", id)
-		}
-	}
 }
