@@ -8,8 +8,8 @@ import (
 )
 
 type CommandsInterface interface {
-	FindOne(command string) SimpleCommand
-	Find(commands []string) []SimpleCommand
+	FindOne(action string) []string
+	Find(actions []string) []string
 }
 
 // Creates a new CommandsFromJson, taking as an argument the path of the json file
@@ -21,17 +21,22 @@ type CommandsFromJsonFile struct {
 	filepath string
 }
 
-func (c *CommandsFromJsonFile) FindOne(command string) string {
+func (c *CommandsFromJsonFile) FindOne(action string) []string {
 	parsedFile := c.parsedFile(c.fileContent())
+	result := []string{}
 
 	for block, commands := range parsedFile {
-		fmt.Println(block, ":")
-		for name, command := range commands {
-			fmt.Println("\t", name, ":", command)
+		if block == action {
+			for name, cmd := range commands {
+				fmt.Println("- ", name, ":", cmd)
+				result = append(result, cmd)
+				// here create array of strings
+				// with all the commands part of the "action"
+			}
 		}
 	}
 
-	return "command"
+	return result
 }
 
 //func (c *CommandsFromJsonFile) Find(command []string) []SimpleCommand {
