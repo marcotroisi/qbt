@@ -10,5 +10,10 @@ func main() {
 
 	commands := qbt.NewCommandsFromJsonFile("/Users/marcotroisi/gocode/src/github.com/marcotroisi/qbt/file.json")
 	result := commands.FindOne("test")
-	fmt.Println(result)
+
+	for _, command := range result {
+		cmd := qbt.NewSimpleCommandWithExec(command, "")
+		output := cmd.Run()
+		fmt.Println(output)
+	}
 }

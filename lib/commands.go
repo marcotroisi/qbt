@@ -29,9 +29,9 @@ func (c *CommandsFromJsonFile) FindOne(action string) []string {
 		if block == action {
 			for name, cmd := range commands {
 				fmt.Println("- ", name, ":", cmd)
+				// array of strings with all the commands
+				// part of the "action"
 				result = append(result, cmd)
-				// here create array of strings
-				// with all the commands part of the "action"
 			}
 		}
 	}
