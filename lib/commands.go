@@ -1,10 +1,10 @@
 package qbt
 
 import (
-	"log"
 	"io/ioutil"
 	"encoding/json"
 	"fmt"
+	"log"
 )
 
 type CommandsInterface interface {
@@ -22,7 +22,14 @@ type CommandsFromJsonFile struct {
 }
 
 func (c *CommandsFromJsonFile) FindOne(action string) []string {
-	parsedFile := c.parsedFile(c.fileContent())
+	fileContent, err := c.fileContent()
+	if (err != nil) {
+		log.Fatal(err)
+	}
+	parsedFile, err := c.parsedFile(fileContent)
+	if (err != nil) {
+		log.Fatal(err)
+	}
 	result := []string{}
 
 	for block, commands := range parsedFile {
@@ -43,20 +50,20 @@ func (c *CommandsFromJsonFile) FindOne(action string) []string {
 //
 //}
 
-func (c *CommandsFromJsonFile) fileContent() []byte {
+func (c *CommandsFromJsonFile) fileContent() ([]byte, error) {
 	//open file
 	content, err := ioutil.ReadFile(c.filepath)
 	if err != nil {
-		log.Fatal(err)
+		return nil, err
 	}
-	return content
+	return content, nil
 }
 
-func (c *CommandsFromJsonFile) parsedFile(fileContent []byte) map[string]map[string]string {
+func (c *CommandsFromJsonFile) parsedFile(fileContent []byte) (map[string]map[string]string, error) {
 	m := map[string]map[string]string{}
 	err:= json.Unmarshal(fileContent, &m)
 	if err != nil {
-		log.Fatal(err)
+		return nil, err
 	}
-	return m
+	return m, nil
 }
