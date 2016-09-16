@@ -1,0 +1,6 @@
+{
+  "test": {
+    "integration": "vendor/bin/phpspec",
+    "unit": "vendor/bin/phpunit -c phpunit"
+  }
+}
