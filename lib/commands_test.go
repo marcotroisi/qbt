@@ -2,10 +2,12 @@ package qbt
 
 import (
 	"testing"
+	"path/filepath"
 )
 
 func TestCommandsFromJsonFile_FindOne(t *testing.T) {
-	commands := NewCommandsFromJsonFile("/Users/marcotroisi/gocode/src/github.com/marcotroisi/qbt/file.json")
+	absPath, _ := filepath.Abs("../file.json")
+	commands := NewCommandsFromJsonFile(absPath)
 	result := commands.FindOne("test", "")
 
 	for i, command := range result {
