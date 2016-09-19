@@ -21,7 +21,8 @@ func TestCommandsFromJsonFile_FindOne(t *testing.T) {
 }
 
 func TestCommandsFromJsonFile_FindOneWithBlock(t *testing.T) {
-	commands := NewCommandsFromJsonFile("/Users/marcotroisi/gocode/src/github.com/marcotroisi/qbt/file.json")
+	absPath, _ := filepath.Abs("../file.json")
+	commands := NewCommandsFromJsonFile(absPath)
 	result := commands.FindOne("test", "unit")
 
 	for i, command := range result {
