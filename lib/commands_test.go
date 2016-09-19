@@ -10,13 +10,22 @@ func TestCommandsFromJsonFile_FindOne(t *testing.T) {
 	commands := NewCommandsFromJsonFile(absPath)
 	result := commands.FindOne("test", "")
 
+	phpspecExists := false
+	phpunitExists := false
 	for i, command := range result {
-		if i == 0 && command != "vendor/bin/phpspec" {
-			t.Error("expected \"vendor/bin/phpspec\", got ", command)
+		if command == "vendor/bin/phpspec" {
+			phpspecExists = true
 		}
-		if i == 1 && command != "vendor/bin/phpunit -c phpunit" {
-			t.Error("expected \"vendor/bin/phpunit -c phpunit\", got ", command)
+		if command == "vendor/bin/phpunit -c phpunit" {
+			phpunitExists = true
 		}
+	}
+
+	if !phpspecExists {
+		t.Error("expected \"vendor/bin/phpspec\"")
+	}
+	if !phpunitExists {
+		t.Error("expected \"vendor/bin/phpunit -c phpunit\"")
 	}
 }
 
