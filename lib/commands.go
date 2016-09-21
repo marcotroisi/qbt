@@ -3,7 +3,6 @@ package qbt
 import (
 	"io/ioutil"
 	"encoding/json"
-	"fmt"
 	"log"
 )
 
@@ -38,7 +37,7 @@ func (c *CommandsFromJsonFile) FindOne(action string, block string) []string {
 				if block != "" && block != name {
 					continue
 				}
-				fmt.Println("- ", name, ":", cmd)
+				//fmt.Println("- ", name, ":", cmd)
 				// array of strings with all the commands
 				// part of the "action"
 				result = append(result, cmd)
@@ -49,9 +48,14 @@ func (c *CommandsFromJsonFile) FindOne(action string, block string) []string {
 	return result
 }
 
-//func (c *CommandsFromJsonFile) Find(command []string) []SimpleCommand {
-//
-//}
+func (c *CommandsFromJsonFile) Find(actions []string) []string {
+	result := []string{}
+	for _, action := range actions {
+		result = append(result, c.FindOne(action, "")...)
+	}
+
+	return result
+}
 
 func (c *CommandsFromJsonFile) fileContent() ([]byte, error) {
 	//open file

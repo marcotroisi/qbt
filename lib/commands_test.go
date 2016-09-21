@@ -44,3 +44,34 @@ func TestCommandsFromJsonFile_FindOneWithBlock(t *testing.T) {
 		t.Error("expected \"vendor/bin/phpunit -c phpunit\"")
 	}
 }
+
+func TestCommandsFromJsonFile_Find(t *testing.T) {
+	absPath, _ := filepath.Abs("../file.json")
+	commands := NewCommandsFromJsonFile(absPath)
+	result := commands.Find([]string{"build", "test"})
+
+	composerExists := false
+	phpspecExists := false
+	phpunitExists := false
+	for _, command := range result {
+		if command == "vendor/bin/phpspec" {
+			phpspecExists = true
+		}
+		if command == "vendor/bin/phpunit -c phpunit" {
+			phpunitExists = true
+		}
+		if command == "composer install" {
+			composerExists = true
+		}
+	}
+
+	if !phpspecExists {
+		t.Error("expected \"vendor/bin/phpspec\"")
+	}
+	if !phpunitExists {
+		t.Error("expected \"vendor/bin/phpunit -c phpunit\"")
+	}
+	if !composerExists {
+		t.Error("expected \"composer install\"")
+	}
+}
